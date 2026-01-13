@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/layouts/Header";
+import { BottomNav } from "@/components/layouts/BottomNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Campus Housing Reviews",
-  description: "Anonymous reviews of college housing by students, for students",
+  title: "CampusNest - Student Housing Reviews",
+  description: "Anonymous reviews of college housing by students, for students. Find your perfect nest!",
 };
 
 export default function RootLayout({
@@ -16,7 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-school="oregon-state">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          <main className="flex-1 pb-20 md:pb-0">{children}</main>
+          <BottomNav />
+        </div>
+      </body>
     </html>
   );
 }
