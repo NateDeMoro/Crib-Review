@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --school-primary: #000000; /* Default black */
+  --school-secondary: #dc4405; /* Default orange (Oregon State) */
+}
+
+/* School-specific themes */
+[data-school="oregon-state"] {
+  --school-primary: #000000; /* Beaver Black */
+  --school-secondary: #dc4405; /* Beaver Orange */
+}
+
+/* Add more schools as you expand */
+/* [data-school="another-university"] {
+  --school-primary: #color1;
+  --school-secondary: #color2;
+} */
+
+body {
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}

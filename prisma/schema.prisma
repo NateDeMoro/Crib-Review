@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model School {
+  id            String    @id @default(cuid())
+  name          String    @unique
+  domain        String    @unique // e.g., "oregonstate.edu"
+  colorPrimary  String    // Hex color for primary school color
+  colorSecondary String   // Hex color for secondary school color
+  slug          String    @unique // URL-friendly name e.g., "oregon-state"
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  users         User[]
+  housing       Housing[]
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  isVerified    Boolean   @default(false)
+  schoolId      String
+  school        School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  reviews       Review[]
+  comments      Comment[]
+  favorites     Favorite[]
+  sentMessages  Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+
+  @@index([schoolId])
+  @@index([email])
+}
+
+model Housing {
+  id            String    @id @default(cuid())
+  name          String
+  address       String
+  city          String
+  state         String
+  zipCode       String
+  isOnCampus    Boolean   @default(false)
+  schoolId      String
+  school        School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  reviews       Review[]
+  favorites     Favorite[]
+
+  @@index([schoolId])
+  @@index([city])
+}
+
+model Review {
+  id                String    @id @default(cuid())
+  housingId         String
+  housing           Housing   @relation(fields: [housingId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isAnonymous       Boolean   @default(true)
+
+  // Rating fields (1-10 scale)
+  overallRating     Int       // Overall rating
+  locationRating    Int?      // Proximity to campus, amenities, etc.
+  valueRating       Int?      // Price vs. quality
+  maintenanceRating Int?      // How well maintained
+  managementRating  Int?      // Landlord/management quality
+  amenitiesRating   Int?      // Amenities quality
+
+  // Text review
+  title             String?
+  description       String    @db.Text
+
+  // Additional details
+  monthlyRent       Float?
+  utilitiesIncluded Boolean?
+  isFurnished       Boolean?
+  petsAllowed       Boolean?
+
+  // Media
+  images            String[]  // Array of image URLs
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  comments          Comment[]
+
+  @@index([housingId])
+  @@index([userId])
+  @@index([overallRating])
+}
+
+model Comment {
+  id            String    @id @default(cuid())
+  reviewId      String
+  review        Review    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content       String    @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([reviewId])
+  @@index([userId])
+}
+
+model Favorite {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  housingId     String
+  housing       Housing   @relation(fields: [housingId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now())
+
+  @@unique([userId, housingId])
+  @@index([userId])
+  @@index([housingId])
+}
+
+model Message {
+  id            String    @id @default(cuid())
+  senderId      String
+  sender        User      @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  recipientId   String
+  recipient     User      @relation("ReceivedMessages", fields: [recipientId], references: [id], onDelete: Cascade)
+  content       String    @db.Text
+  isRead        Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+
+  @@index([senderId])
+  @@index([recipientId])
+  @@index([createdAt])
+}
