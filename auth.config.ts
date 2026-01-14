@@ -57,9 +57,11 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
       const isOnReview = nextUrl.pathname.startsWith("/review");
+      const isAddingHousing = nextUrl.pathname === "/housing/new";
+      const isOnProfile = nextUrl.pathname.startsWith("/profile");
 
-      // Protect dashboard and review pages
-      if (isOnDashboard || isOnReview) {
+      // Protect authenticated pages
+      if (isOnDashboard || isOnReview || isAddingHousing || isOnProfile) {
         if (isLoggedIn) return true;
         return false;
       }

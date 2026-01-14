@@ -14,12 +14,12 @@ const navItems = [
   {
     href: "/housing",
     icon: Search,
-    label: "Search",
+    label: "Browse",
   },
   {
     href: "/review/new",
     icon: PlusCircle,
-    label: "Rate",
+    label: "Review",
   },
   {
     href: "/profile",
