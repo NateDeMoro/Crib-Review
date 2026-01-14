@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home as HomeIcon, Loader2 } from "lucide-react";
 
-export default function SignInPage() {
+function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
@@ -191,5 +191,23 @@ export default function SignInPage() {
         </form>
       </Card>
     </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-school-primary via-gray-900 to-school-primary p-4">
+        <Card className="w-full max-w-md">
+          <CardContent className="p-8">
+            <div className="flex justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-school-secondary" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    }>
+      <SignInForm />
+    </Suspense>
   );
 }
