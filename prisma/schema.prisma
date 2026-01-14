@@ -27,6 +27,7 @@ model School {
 model User {
   id            String    @id @default(cuid())
   email         String    @unique
+  password      String
   name          String?
   isVerified    Boolean   @default(false)
   schoolId      String

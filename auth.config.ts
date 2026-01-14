@@ -1,36 +1,44 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
 export const authConfig = {
   providers: [
     Credentials({
-      name: "Email",
+      name: "credentials",
       credentials: {
         email: { label: "Email", type: "email", placeholder: "student@school.edu" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || typeof credentials.email !== "string") {
-          return null;
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Email and password are required");
         }
 
         const email = credentials.email.toLowerCase();
+        const password = credentials.password as string;
 
         // Verify it's a .edu email
         if (!email.endsWith(".edu")) {
           throw new Error("Only .edu email addresses are allowed");
         }
 
-        // Check if user exists
-        let user = await prisma.user.findUnique({
+        // Find user
+        const user = await prisma.user.findUnique({
           where: { email },
           include: { school: true },
         });
 
-        // If user doesn't exist, we'll need to handle registration
-        // For now, return null (you'll implement registration flow later)
         if (!user) {
-          throw new Error("User not found. Please register first.");
+          throw new Error("Invalid email or password");
+        }
+
+        // Verify password
+        const isValidPassword = await bcrypt.compare(password, user.password);
+
+        if (!isValidPassword) {
+          throw new Error("Invalid email or password");
         }
 
         return {
