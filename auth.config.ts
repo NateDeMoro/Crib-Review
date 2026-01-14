@@ -16,7 +16,7 @@ export const authConfig = {
           throw new Error("Email and password are required");
         }
 
-        const email = credentials.email.toLowerCase();
+        const email = (credentials.email as string).toLowerCase();
         const password = credentials.password as string;
 
         // Verify it's a .edu email
