@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
         .split(".")[0]
         .split(/(?=[A-Z])/)
         .join(" ")
-        .replace(/\b\w/g, (l) => l.toUpperCase());
+        .replace(/\b\w/g, (l: string) => l.toUpperCase());
 
       school = await prisma.school.create({
         data: {
