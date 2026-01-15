@@ -19,7 +19,7 @@ export function useFavorites() {
         const response = await fetch("/api/favorites");
         if (response.ok) {
           const favorites = await response.json();
-          const ids = new Set(favorites.map((fav: { id: string }) => fav.id));
+          const ids = new Set<string>(favorites.map((fav: { id: string }) => fav.id));
           setFavoriteIds(ids);
         }
       } catch (error) {
