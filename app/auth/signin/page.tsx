@@ -97,7 +97,7 @@ function SignInForm() {
           </div>
           <CardTitle className="text-2xl text-center text-gray-900">Welcome Back</CardTitle>
           <CardDescription className="text-center text-gray-700">
-            Sign in to your CampusNest account
+            Sign in to your Crib Review account
           </CardDescription>
         </CardHeader>
 

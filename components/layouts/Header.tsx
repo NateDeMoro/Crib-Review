@@ -38,7 +38,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2 font-bold text-xl">
           <HomeIcon className="h-8 w-8 text-school-secondary" />
           <span className="text-white">
-            Campus<span className="text-school-secondary">Nest</span>
+            Crib<span className="text-school-secondary"> Review</span>
           </span>
         </Link>
 

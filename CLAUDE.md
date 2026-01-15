@@ -32,10 +32,11 @@ npm run dev
 ## Architecture Overview
 
 ### Tech Stack
+- **App Name**: Crib Review (formerly CampusNest)
 - **Framework**: Next.js 16 (App Router) with TypeScript
 - **Database**: PostgreSQL with Prisma ORM 6
 - **Authentication**: NextAuth.js v5 (JWT sessions, Credentials provider)
-- **Styling**: Tailwind CSS with shadcn/ui components
+- **Styling**: Tailwind CSS with shadcn/ui components (explicit colors required - no semantic tokens configured)
 - **File Upload**: UploadThing (image hosting for reviews)
 - **Deployment**: Railway (managed PostgreSQL + Node.js)
 
@@ -250,6 +251,13 @@ const userId = session?.user?.id;
 - User assigned to school during registration based on email domain
 - Queries should filter by `session.user.school` when needed
 
+**Styling with shadcn/ui components:**
+- shadcn/ui semantic tokens (`bg-card`, `text-card-foreground`, `bg-popover`, `text-muted-foreground`) are NOT configured
+- Always use explicit Tailwind colors: `bg-white`, `text-gray-900`, `text-gray-700`, etc.
+- Card components need `className="bg-white text-gray-900"` when on dark backgrounds
+- DropdownMenu components need explicit colors for proper contrast
+- TypeScript: Use explicit generics for type safety (e.g., `new Set<string>()`)
+
 ### Important Constraints
 
 1. **Email validation**: Only `.edu` addresses allowed (auth.config.ts:23)
@@ -260,6 +268,7 @@ const userId = session?.user?.id;
 4. **Anonymous reviews**: When `isAnonymous: true`, user data should not be exposed
 5. **Build process**: `prisma generate` and `prisma db push` run automatically during build
 6. **Image uploads**: Requires UploadThing API keys in `.env` (UPLOADTHING_SECRET, UPLOADTHING_APP_ID)
+7. **Styling**: Must use explicit Tailwind colors (no semantic token config). Cards/dropdowns on dark backgrounds require `bg-white text-gray-900`
 
 ### Testing and Development Notes
 
@@ -318,8 +327,9 @@ const userId = session?.user?.id;
 
 - Do NOT reprint entire files.
 - Prefer minimal diffs or focused code snippets showing only modified lines.
-- If a change affects more than ~30 lines in a file:
+- If a change affects more than ~5 lines in a file:
   - Summarize the change in plain English
   - List the file paths modified
   - Do NOT inline the full code unless explicitly requested
 - Always indicate where the change was made (file + function/component name).
+- Keep responses in general to be direct and compact

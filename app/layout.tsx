@@ -8,8 +8,8 @@ import { SessionProvider } from "@/components/providers/SessionProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CampusNest - Student Housing Reviews",
-  description: "Anonymous reviews of college housing by students, for students. Find your perfect nest!",
+  title: "Crib Review - Student Housing Reviews",
+  description: "Anonymous reviews of college housing by students, for students. Find your perfect place!",
 };
 
 export default function RootLayout({
