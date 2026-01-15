@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home as HomeIcon, Loader2 } from "lucide-react";
-import { autoSignInAction } from "@/app/actions/auth-actions";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -85,14 +85,15 @@ export default function SignUpPage() {
       }
 
       // Step 2: Auto sign-in the user
-      const signInResult = await autoSignInAction(
-        formData.email.toLowerCase(),
-        formData.password
-      );
+      const signInResult = await signIn("credentials", {
+        email: formData.email.toLowerCase(),
+        password: formData.password,
+        redirect: false,
+      });
 
-      if (!signInResult.success) {
-        // If auto sign-in fails, redirect to sign-in page with email pre-filled
-        router.push(`/auth/signin?email=${encodeURIComponent(formData.email.toLowerCase())}`);
+      if (signInResult?.error) {
+        // If auto sign-in fails, redirect to sign-in page
+        router.push("/auth/signin?registered=true");
         return;
       }
 
