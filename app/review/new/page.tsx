@@ -128,8 +128,8 @@ export default function WriteReviewPage() {
         throw new Error(data.error || "Failed to submit review");
       }
 
-      // Redirect to housing page
-      router.push(`/housing/${data.housingId}`);
+      // Redirect to housing list page with success message
+      router.push("/housing?review=success");
     } catch (error) {
       setServerError(error instanceof Error ? error.message : "Something went wrong");
     } finally {

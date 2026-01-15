@@ -2,9 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home as HomeIcon, Menu } from "lucide-react";
+import { Home as HomeIcon, Menu, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useSession, signOut } from "next-auth/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -15,6 +24,12 @@ const navItems = [
 
 export function Header() {
   const pathname = usePathname();
+  const { data: session, status } = useSession();
+  const isLoading = status === "loading";
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: "/" });
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-school-secondary/20 bg-gradient-to-r from-school-primary to-gray-900 backdrop-blur">
@@ -48,21 +63,59 @@ export function Header() {
           })}
         </nav>
 
-        {/* Auth Buttons */}
+        {/* Auth Section */}
         <div className="hidden md:flex items-center gap-3">
-          <Button
-            variant="ghost"
-            className="text-white hover:text-school-secondary"
-            asChild
-          >
-            <Link href="/auth/signin">Sign In</Link>
-          </Button>
-          <Button
-            className="bg-school-secondary hover:bg-school-secondary/90 text-white"
-            asChild
-          >
-            <Link href="/auth/signup">Sign Up</Link>
-          </Button>
+          {isLoading ? (
+            <div className="text-gray-300 text-sm">Loading...</div>
+          ) : session?.user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="text-white hover:text-school-secondary flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  <span>{session.user.name}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium">{session.user.name}</p>
+                    <p className="text-xs text-gray-500">{session.user.email}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="cursor-pointer">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-red-600">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Sign Out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button
+                variant="ghost"
+                className="text-white hover:text-school-secondary"
+                asChild
+              >
+                <Link href="/auth/signin">Sign In</Link>
+              </Button>
+              <Button
+                className="bg-school-secondary hover:bg-school-secondary/90 text-white"
+                asChild
+              >
+                <Link href="/auth/signup">Sign Up</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}

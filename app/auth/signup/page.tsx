@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home as HomeIcon, Loader2 } from "lucide-react";
+import { autoSignInAction } from "@/app/actions/auth-actions";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -64,6 +65,7 @@ export default function SignUpPage() {
     setIsLoading(true);
 
     try {
+      // Step 1: Register the user
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
@@ -82,8 +84,21 @@ export default function SignUpPage() {
         throw new Error(data.error || "Failed to create account");
       }
 
-      // Redirect to sign in page with success message
-      router.push("/auth/signin?registered=true");
+      // Step 2: Auto sign-in the user
+      const signInResult = await autoSignInAction(
+        formData.email.toLowerCase(),
+        formData.password
+      );
+
+      if (!signInResult.success) {
+        // If auto sign-in fails, redirect to sign-in page with email pre-filled
+        router.push(`/auth/signin?email=${encodeURIComponent(formData.email.toLowerCase())}`);
+        return;
+      }
+
+      // Step 3: Redirect to home page
+      router.push("/");
+      router.refresh();
     } catch (error) {
       setServerError(error instanceof Error ? error.message : "Something went wrong");
     } finally {

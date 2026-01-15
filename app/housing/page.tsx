@@ -1,7 +1,11 @@
-import { Search, SlidersHorizontal } from "lucide-react";
+"use client";
+
+import { Search, SlidersHorizontal, CheckCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PropertyCard } from "@/components/ui/property-card";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
 
 // Mock data - replace with real database queries later
 const properties = [
@@ -73,9 +77,40 @@ const properties = [
   },
 ];
 
-export default function HousingPage() {
+function HousingContent() {
+  const searchParams = useSearchParams();
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("review") === "success") {
+      setShowSuccess(true);
+      // Auto-hide after 5 seconds
+      const timer = setTimeout(() => setShowSuccess(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams]);
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Success Message */}
+      {showSuccess && (
+        <div className="fixed top-20 right-4 z-50 animate-in slide-in-from-right">
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 shadow-lg flex items-center gap-3 max-w-md">
+            <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+            <div>
+              <p className="font-medium text-green-900">Review Submitted!</p>
+              <p className="text-sm text-green-700">Thank you for sharing your experience.</p>
+            </div>
+            <button
+              onClick={() => setShowSuccess(false)}
+              className="ml-auto text-green-600 hover:text-green-800"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Header with Search */}
       <div className="bg-gradient-to-r from-school-primary to-gray-900 py-12 px-4">
         <div className="container mx-auto">
@@ -169,5 +204,13 @@ export default function HousingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function HousingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center">Loading...</div>}>
+      <HousingContent />
+    </Suspense>
   );
 }
