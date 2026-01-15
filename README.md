@@ -1,108 +1,91 @@
-# Campus Housing Reviews
+# Crib Review
 
-A platform for college students to leave reviews on housing options on and off campus. Starting with Oregon State University.
+A full-stack web platform enabling college students to share and discover honest housing reviews. Built with modern web technologies and designed for scalability across multiple universities.
 
-## Features
+**Live Demo**: [housing-project-production.up.railway.app](https://housing-project-production.up.railway.app)
 
-- Email verification with .edu addresses only
-- Anonymous or attributed reviews
-- Photo uploads (2+ required per review)
-- Star ratings for multiple categories (utilities, furnishing, location, etc.)
-- Filters (pricing, location, pets allowed/not allowed)
-- Public commenting and private DMs
-- Bookmarking/favorites
-- School-specific color themes
+## Overview
+
+Crib Review solves the problem of information asymmetry in student housing by providing a trusted platform where verified students (.edu emails only) can review both on-campus and off-campus properties. The application features multi-category ratings, photo uploads, favorites, and a clean, responsive interface.
+
+## Key Features
+
+- **Verified Student Access**: .edu email authentication ensures authentic reviews
+- **Comprehensive Reviews**: Multi-category ratings (location, value, maintenance, management, amenities) with detailed written feedback
+- **Rich Media**: Image upload support via UploadThing
+- **Smart Filtering**: Search and filter by price, location, on/off-campus status
+- **User Features**: Favorites system, personal dashboard, anonymous posting option
+- **Multi-Tenant Architecture**: School-specific theming and branding support
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 with TypeScript
-- **Database**: PostgreSQL with Prisma ORM
-- **Authentication**: NextAuth.js v5
-- **Styling**: Tailwind CSS
-- **Image Hosting**: UploadThing (or Cloudinary)
-- **Deployment**: Railway
+- **Framework**: Next.js 16 (App Router) with TypeScript
+- **Database**: PostgreSQL with Prisma ORM 6
+- **Authentication**: NextAuth.js v5 (JWT-based sessions)
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **File Upload**: UploadThing
+- **Deployment**: Railway (managed PostgreSQL + Node.js)
 
-## Getting Started
+## Architecture Highlights
 
-### Prerequisites
-
-- Node.js 18.17+ (20+ recommended)
-- PostgreSQL database
-
-### Installation
-
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Copy the environment variables:
-   ```bash
-   cp .env.example .env
-   ```
-
-4. Update `.env` with your credentials:
-   - Set up a PostgreSQL database (Railway offers managed Postgres)
-   - Generate an AUTH_SECRET: `openssl rand -base64 32`
-   - Add other API keys as needed
-
-5. Set up the database:
-   ```bash
-   npx prisma generate
-   npx prisma db push
-   ```
-
-6. Run the development server:
-   ```bash
-   npm run dev
-   ```
-
-7. Open [http://localhost:3000](http://localhost:3000)
+- Server-side rendering with React Server Components
+- Edge middleware for route protection
+- Optimistic UI updates for favorites
+- Computed fields for average ratings and pricing
+- Type-safe database queries with Prisma
 
 ## Database Schema
 
-### Core Models:
-- **School**: University information with color scheme
-- **User**: Students with .edu email verification
-- **Housing**: Housing properties (on/off campus)
-- **Review**: Student reviews with multiple rating categories
-- **Comment**: Public comments on reviews
-- **Favorite**: Bookmarked housing
-- **Message**: Private DMs between users
+The application uses 7 core models: School, User, Housing, Review, Comment, Favorite, and Message. All data is scoped by school to support multi-tenancy, with indexes on frequently queried fields for optimal performance.
 
-## Deployment to Railway
+## Local Development
 
-1. Create a Railway account
-2. Create a new project and add PostgreSQL
-3. Connect your GitHub repository
-4. Add environment variables from `.env.example`
-5. Deploy!
+### Prerequisites
+- Node.js 18.17+ (20+ recommended)
+- PostgreSQL database
+
+### Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Configure environment variables
+cp .env.example .env
+# Edit .env with your DATABASE_URL, AUTH_SECRET, and API keys
+
+# Initialize database
+npx prisma generate
+npx prisma db push
+
+# Start development server
+npm run dev
+```
+
+## Deployment
+
+The application is production-ready and deployed on Railway with automated CI/CD from the main branch. Environment variables are managed through Railway's dashboard, and database migrations are applied during the build process.
 
 ## Project Structure
 
 ```
-├── app/                  # Next.js App Router pages
-│   ├── api/             # API routes
-│   ├── auth/            # Authentication pages
-│   ├── dashboard/       # User dashboard
-│   ├── housing/         # Housing listings & details
-│   └── profile/         # User profiles
-├── components/          # React components
-│   ├── ui/             # Reusable UI components
-│   ├── layouts/        # Layout components
-│   └── forms/          # Form components
-├── lib/                # Utility functions
-│   └── prisma.ts       # Prisma client singleton
-├── prisma/             # Database schema
-├── types/              # TypeScript type definitions
-├── auth.ts             # NextAuth configuration
-└── middleware.ts       # Next.js middleware
+app/
+├── api/              # REST API routes (housing, reviews, favorites, auth)
+├── auth/             # Sign-in and sign-up pages
+├── housing/          # Browse, detail, and add housing pages
+├── dashboard/        # User dashboard with reviews and favorites
+└── profile/          # User profile management
+
+components/
+├── ui/               # Reusable UI components (shadcn/ui)
+└── layouts/          # Header and navigation components
+
+prisma/
+└── schema.prisma     # Database schema definition
+
+auth.ts               # NextAuth configuration
+middleware.ts         # Route protection middleware
 ```
-
-## Node Version Note
-
-This project uses versions compatible with Node 18.16+. For best results, upgrade to Node 20+ to use the latest package versions.
 
 ## License
 
