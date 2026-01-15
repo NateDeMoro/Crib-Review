@@ -137,9 +137,9 @@ export default function ProfilePage() {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto space-y-6">
           {/* User Information Card */}
-          <Card>
+          <Card className="bg-white text-gray-900">
             <CardHeader>
-              <CardTitle>Account Information</CardTitle>
+              <CardTitle className="text-gray-900">Account Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
@@ -190,9 +190,9 @@ export default function ProfilePage() {
           </Card>
 
           {/* Activity Stats Card */}
-          <Card>
+          <Card className="bg-white text-gray-900">
             <CardHeader>
-              <CardTitle>Activity Statistics</CardTitle>
+              <CardTitle className="text-gray-900">Activity Statistics</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-6">
@@ -244,9 +244,9 @@ export default function ProfilePage() {
           </Card>
 
           {/* Account Actions Card */}
-          <Card>
+          <Card className="bg-white text-gray-900">
             <CardHeader>
-              <CardTitle>Account Actions</CardTitle>
+              <CardTitle className="text-gray-900">Account Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <Button

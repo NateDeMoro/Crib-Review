@@ -117,7 +117,7 @@ export default function SignUpPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-school-primary via-gray-900 to-school-primary p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md bg-white text-gray-900">
         <CardHeader className="space-y-3">
           <div className="flex justify-center">
             <Link href="/" className="flex items-center gap-2">
@@ -126,8 +126,8 @@ export default function SignUpPage() {
               </div>
             </Link>
           </div>
-          <CardTitle className="text-2xl text-center">Create Your Account</CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className="text-2xl text-center text-gray-900">Create Your Account</CardTitle>
+          <CardDescription className="text-center text-gray-700">
             Join students sharing honest housing reviews
           </CardDescription>
         </CardHeader>
@@ -141,7 +141,7 @@ export default function SignUpPage() {
             )}
 
             <div className="space-y-2">
-              <label htmlFor="name" className="text-sm font-medium">
+              <label htmlFor="name" className="text-sm font-medium text-gray-900">
                 Full Name
               </label>
               <Input
@@ -159,7 +159,7 @@ export default function SignUpPage() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
+              <label htmlFor="email" className="text-sm font-medium text-gray-900">
                 Student Email
               </label>
               <Input
@@ -180,7 +180,7 @@ export default function SignUpPage() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium">
+              <label htmlFor="password" className="text-sm font-medium text-gray-900">
                 Password
               </label>
               <Input
@@ -201,7 +201,7 @@ export default function SignUpPage() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="confirmPassword" className="text-sm font-medium">
+              <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-900">
                 Confirm Password
               </label>
               <Input

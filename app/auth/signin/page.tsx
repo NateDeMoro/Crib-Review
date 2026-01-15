@@ -86,7 +86,7 @@ function SignInForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-school-primary via-gray-900 to-school-primary p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md bg-white text-gray-900">
         <CardHeader className="space-y-3">
           <div className="flex justify-center">
             <Link href="/" className="flex items-center gap-2">
@@ -95,8 +95,8 @@ function SignInForm() {
               </div>
             </Link>
           </div>
-          <CardTitle className="text-2xl text-center">Welcome Back</CardTitle>
-          <CardDescription className="text-center">
+          <CardTitle className="text-2xl text-center text-gray-900">Welcome Back</CardTitle>
+          <CardDescription className="text-center text-gray-700">
             Sign in to your CampusNest account
           </CardDescription>
         </CardHeader>
@@ -118,7 +118,7 @@ function SignInForm() {
             )}
 
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
+              <label htmlFor="email" className="text-sm font-medium text-gray-900">
                 Student Email
               </label>
               <Input
@@ -137,7 +137,7 @@ function SignInForm() {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="text-sm font-medium">
+                <label htmlFor="password" className="text-sm font-medium text-gray-900">
                   Password
                 </label>
                 <Link
@@ -198,7 +198,7 @@ export default function SignInPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-school-primary via-gray-900 to-school-primary p-4">
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-md bg-white">
           <CardContent className="p-8">
             <div className="flex justify-center">
               <Loader2 className="h-8 w-8 animate-spin text-school-secondary" />

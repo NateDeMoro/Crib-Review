@@ -78,21 +78,21 @@ export function Header() {
                   <span>{session.user.name}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>
+              <DropdownMenuContent align="end" className="w-56 bg-white text-gray-900">
+                <DropdownMenuLabel className="text-gray-900">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium">{session.user.name}</p>
+                    <p className="text-sm font-medium text-gray-900">{session.user.name}</p>
                     <p className="text-xs text-gray-500">{session.user.email}</p>
                   </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
+                <DropdownMenuSeparator className="bg-gray-200" />
+                <DropdownMenuItem asChild className="text-gray-900">
                   <Link href="/profile" className="cursor-pointer">
                     <User className="mr-2 h-4 w-4" />
                     <span>Profile</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator className="bg-gray-200" />
                 <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-red-600">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Sign Out</span>
