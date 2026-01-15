@@ -222,3 +222,6 @@ const userId = session?.user?.id;
 - `lib/prisma.ts` - Prisma client singleton
 - `app/api/` - All backend API routes
 - `components/ui/` - Reusable UI components (shadcn/ui)
+
+## Guidelines
+- Ask clarifying questions to help lower usage by getting more specific instructions

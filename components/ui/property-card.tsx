@@ -19,6 +19,8 @@ interface PropertyCardProps {
   monthlyRent?: number;
   isOnCampus: boolean;
   className?: string;
+  isFavorited?: boolean;
+  onFavoriteToggle?: (housingId: string) => void;
 }
 
 export function PropertyCard({
@@ -32,6 +34,8 @@ export function PropertyCard({
   monthlyRent,
   isOnCampus,
   className,
+  isFavorited = false,
+  onFavoriteToggle,
 }: PropertyCardProps) {
   return (
     <Link href={`/housing/${id}`}>
@@ -67,13 +71,22 @@ export function PropertyCard({
 
           {/* Favorite Button */}
           <button
-            className="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-colors"
+            className="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-colors group/heart"
             onClick={(e) => {
               e.preventDefault();
-              // TODO: Add to favorites
+              e.stopPropagation();
+              onFavoriteToggle?.(id);
             }}
+            aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
           >
-            <Heart className="h-5 w-5 text-gray-700" />
+            <Heart
+              className={cn(
+                "h-5 w-5 transition-colors",
+                isFavorited
+                  ? "fill-red-500 text-red-500"
+                  : "text-gray-700 group-hover/heart:text-red-500"
+              )}
+            />
           </button>
         </div>
 

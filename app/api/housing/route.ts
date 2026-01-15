@@ -132,9 +132,9 @@ export async function GET(request: NextRequest) {
         zipCode: h.zipCode,
         isOnCampus: h.isOnCampus,
         school: h.school,
-        avgRating: Math.round(avgRating * 10) / 10,
+        averageRating: Math.round(avgRating * 10) / 10,
         reviewCount: h._count.reviews,
-        avgRent: avgRent ? Math.round(avgRent) : null,
+        averageRent: avgRent ? Math.round(avgRent) : null,
       };
     });
 

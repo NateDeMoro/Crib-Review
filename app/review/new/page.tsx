@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Star, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { ImageUpload } from "@/components/ui/image-upload";
 
 export default function WriteReviewPage() {
   const router = useRouter();
@@ -41,6 +42,7 @@ export default function WriteReviewPage() {
     isAnonymous: false,
   });
 
+  const [images, setImages] = useState<string[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState("");
@@ -117,7 +119,7 @@ export default function WriteReviewPage() {
             isFurnished: formData.isFurnished,
             petsAllowed: formData.petsAllowed,
             isAnonymous: formData.isAnonymous,
-            images: [], // TODO: Add image upload later
+            images: images,
           },
         }),
       });
@@ -448,7 +450,17 @@ export default function WriteReviewPage() {
                 </div>
               </div>
 
-              {/* Section 5: Privacy */}
+              {/* Section 5: Photos */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold border-b pb-2">Photos (Optional)</h3>
+                <ImageUpload
+                  value={images}
+                  onChange={setImages}
+                  maxImages={5}
+                />
+              </div>
+
+              {/* Section 6: Privacy */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold border-b pb-2">Privacy</h3>
 
